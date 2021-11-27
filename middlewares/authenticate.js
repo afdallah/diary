@@ -9,8 +9,6 @@ module.exports = (req, res, next) => {
   if (!token) return error(400, 'Token is required')
 
   try {
-    console.log('decoded', token)
-    console.log(process.env.JWT_SECRET)
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
     if (!decoded) return error(400, 'Token is invalid!')
 

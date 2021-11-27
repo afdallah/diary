@@ -131,4 +131,31 @@ router.delete('/:id', async function (req, res, next) {
   }
 })
 
+router.post('/unlock', authenticate, function (req, res, next) {
+  if (!req.body.pin) {
+    return res.status(400).json({
+      status: false,
+      message: 'Pin is required!'
+    })
+  }
+
+  User.findOne({ _id: req.user._id })
+    .then(user => {
+      if (user.pin !== req.body.pin) {
+        return res.status(400).json({
+          status: false,
+          message: 'Incorrect pin'
+        })
+      }
+
+      res.status(200).json({
+        status: true,
+        message: `Weolcome ${user.fullName.split(' ')[0]}`
+      })
+    })
+    .catch(error =>
+      res.status(400).json({ status: false, message: error.message })
+    )
+})
+
 module.exports = router

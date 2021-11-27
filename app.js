@@ -4,6 +4,7 @@ require('dotenv').config()
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
+const notesRouter = require('./routes/notes')
 
 const app = express()
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use('/', indexRouter)
 app.use('/api/v1/users', usersRouter)
+app.use('/api/v1/notes', notesRouter)
 app.use('*', function(req, res, next) {
   res.status(404).json({
     status: 404,

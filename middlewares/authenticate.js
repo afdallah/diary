@@ -1,0 +1,22 @@
+const jwt = require('jsonwebtoken')
+const { error } = require('../helpers/handler')
+
+module.exports = (req, res, next) => {
+  if (!req.headers.authorization) return error(400, 'Wrong headers!')
+  const [prefix, token] = req.headers.authorization.split(' ')
+
+  if (!prefix) { return error(400, 'No bearer prefix found!') }
+  if (!token) return error(400, 'Token is required')
+
+  try {
+    console.log('decoded', token)
+    console.log(process.env.JWT_SECRET)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    if (!decoded) return error(400, 'Token is invalid!')
+
+    req.user = decoded
+    return next()
+  } catch (err) {
+    error(400, err)
+  }
+}

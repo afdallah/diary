@@ -50,7 +50,7 @@ router.post('/register', async function (req, res, next) {
     delete saved.hashPassword
     delete saved.pin
 
-    res.json({
+    res.status(201).json({
       status: true,
       message: 'Successfully registered a new user',
       user: saved

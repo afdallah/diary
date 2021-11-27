@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const { error } = require('../helpers/handler')
 
 module.exports = (req, res, next) => {
-  if (!req.headers.authorization) return error(400, 'Wrong headers!')
+  if (!req.headers.authorization) return error(400, 'Authentication failed!. Wrong headers!')
   const [prefix, token] = req.headers.authorization.split(' ')
 
   if (!prefix) { return error(400, 'No bearer prefix found!') }

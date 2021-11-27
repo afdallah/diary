@@ -11,7 +11,7 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-app.use('/api/v1', indexRouter)
+app.use('/', indexRouter)
 app.use('/api/v1/users', usersRouter)
 app.use('*', function(req, res, next) {
   res.status(404).json({

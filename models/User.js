@@ -9,9 +9,10 @@ const userSchema = new Schema({
 	hashPassword: { type: String },
 	birthday: { type: Date },
 	phoneNumber: { type: String, trim: true, required: true },
+	role: { type: String, enum: ['consultant', 'user'], default: 'user'},
 	gender: {
 		type: String,
-		enum: ['Male', 'Female'],
+		enum: ['male', 'female'],
 	}
 }, {
 	versionKey: false,

@@ -37,7 +37,12 @@ router.post('/register', async function (req, res, next) {
     const hashPassword = await bcrypt.hash(password, bcrypt.genSaltSync(10))
 
     if (isExist) {
-      return res.status(400).json('User already exist, use another email!')
+      return res
+        .status(400)
+        .json({
+          status: false,
+          message: 'User already exist, use another email!'
+        })
     }
 
     let saved = await User.create({

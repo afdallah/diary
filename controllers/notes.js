@@ -44,6 +44,7 @@ exports.addNote = async function (req, res, next) {
     res.status(400).json({ status: false, message: 'No request body' })
   if (!req.user) res.status(401).json({ status: false, message: 'No user' })
 
+  console.log(req.body)
   try {
     const note = Note.create({ ...req.body, user: req.user._id })
     return res.status(201).json({

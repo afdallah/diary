@@ -25,6 +25,7 @@ router.get('/', async function (req, res, next) {
 router.post('/register', async function (req, res, next) {
   const { password, passwordConfirm, ...user } = req.body
 
+  console.log(user)
   try {
     const isExist = await User.findOne({ email: user.email })
 
@@ -90,8 +91,8 @@ router.post('/login', async function (req, res, next) {
 // Get current user
 router.get('/me', authenticate, async function (req, res, next) {
   try {
-    console.log(req.user)
     const user = await User.findById(req.user._id)
+    if (!user) return res.status(404).json({ status: false, message: 'User not found' })
 
     res.json({
       status: true,

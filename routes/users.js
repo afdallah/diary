@@ -75,6 +75,8 @@ router.post('/login', async function (req, res, next) {
     }) // Find a user by email and password
       .select('-hashPassword -pin')
 
+    if (!user) return res.status(400).json({ status: false, message: 'Invalid email or password' })
+
     user = user.toObject()
     user.token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET)
 

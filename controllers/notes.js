@@ -1,11 +1,9 @@
 const Note = require('../models/Note')
 
 exports.getAllNotes = async function (req, res, next) {
+  console.log(req.query)
   try {
-    const notes = await Note.paginate({ user: req.user._id })
-
-    // console.log(notes)
-
+    const notes = await Note.paginate({ user: req.user._id }, { ...req.query })
     return res.status(200).json({
       status: true,
       message: 'Successfully fetch all notes',

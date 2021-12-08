@@ -25,7 +25,6 @@ router.get('/', async function (req, res, next) {
 router.post('/register', async function (req, res, next) {
   const { password, passwordConfirm, ...user } = req.body
 
-  console.log(user)
   try {
     const isExist = await User.findOne({ email: user.email })
 
@@ -46,6 +45,7 @@ router.post('/register', async function (req, res, next) {
         })
     }
 
+    console.log
     let saved = await User.create({
       ...user,
       hashPassword

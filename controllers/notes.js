@@ -2,7 +2,9 @@ const Note = require('../models/Note')
 
 exports.getAllNotes = async function (req, res, next) {
   try {
-    const notes = await Note.find({})
+    const notes = await Note.paginate({ user: req.user._id })
+
+    // console.log(notes)
 
     return res.status(200).json({
       status: true,
@@ -24,6 +26,13 @@ exports.getNoteById = async function (req, res, next) {
 
   try {
     const note = await Note.findById(req.params.id)
+
+    if (note.user.toString() !== req.user._id.toString()) {
+      return res.status(401).json({
+        status: false,
+        message: 'Not authorized'
+      })
+    }
 
     return res.status(200).json({
       status: true,

@@ -1,7 +1,23 @@
 const express = require('express')
 const logger = require('morgan')
+const cors = require('cors')
+const mongoosePaginate = require('mongoose-paginate-v2')
 require('dotenv').config()
 
+
+const options = {
+  page: 1,
+  limit: 5,
+  collation: {
+    locale: 'en',
+  },
+  customLabels: {
+    totalDocs: 'total',
+    docs: 'list',
+  }
+}
+
+mongoosePaginate.paginate.options = options
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const notesRouter = require('./routes/notes')
@@ -9,6 +25,7 @@ const notesRouter = require('./routes/notes')
 const app = express()
 
 app.use(logger('dev'))
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 

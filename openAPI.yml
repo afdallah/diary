@@ -8,7 +8,7 @@ info:
     url: https://openheart.com
   version: 1.0.0
 servers:
-  - url: https://diary-api.dalla.id/api/v1
+  - url: https://openheart-api.dalla.id/api/v1
   - url: http://localhost:8000/api/v1
 tags:
   - name: users

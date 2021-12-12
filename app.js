@@ -2,8 +2,11 @@ const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
 const mongoosePaginate = require('mongoose-paginate-v2')
+const path = require('path')
 require('dotenv').config()
-
+const swaggerUi = require('swagger-ui-express');
+YAML = require('yamljs');
+const swaggerDocument = YAML.load('openAPI.yml');
 
 const options = {
   page: 1,
@@ -23,6 +26,11 @@ const usersRouter = require('./routes/users')
 const notesRouter = require('./routes/notes')
 
 const app = express()
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.set('view engine', 'pug')
+app.set('views', 'views')
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(logger('dev'))
 app.use(cors())

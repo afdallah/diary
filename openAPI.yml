@@ -4,8 +4,8 @@ info:
   description: Find out more about our about Open Hearts on our official website. Coming soon
   contact:
     name: Open heart developer
-    email: hey@openheart.com
-    url: https://openheart.com
+    email: hey@openheartdiary.netlify.app
+    url: https://openheartdiary.netlify.app
   version: 1.0.0
 servers:
   - url: https://openheart-api.dalla.id/api/v1
@@ -381,6 +381,9 @@ components:
         email:
           type: string
           example: afdallah.war@gmail.com
+        phoneNumber:
+          type: string
+          example: '08123456789'
         pin:
           type: number
           description: Used to unlock the notes view

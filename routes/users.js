@@ -26,6 +26,7 @@ router.post('/register', async function (req, res, next) {
   const { password, passwordConfirm, ...user } = req.body
 
   try {
+    console.log(req.body)
     const isExist = await User.findOne({ email: user.email })
 
     if (password !== passwordConfirm) {
@@ -37,12 +38,10 @@ router.post('/register', async function (req, res, next) {
     const hashPassword = await bcrypt.hash(password, bcrypt.genSaltSync(10))
 
     if (isExist) {
-      return res
-        .status(400)
-        .json({
-          status: false,
-          message: 'User already exist, use another email!'
-        })
+      return res.status(400).json({
+        status: false,
+        message: 'User already exist, use another email!'
+      })
     }
 
     console.log
@@ -75,7 +74,10 @@ router.post('/login', async function (req, res, next) {
     }) // Find a user by email and password
       .select('-hashPassword -pin')
 
-    if (!user) return res.status(400).json({ status: false, message: 'Invalid email or password' })
+    if (!user)
+      return res
+        .status(400)
+        .json({ status: false, message: 'Invalid email or password' })
 
     user = user.toObject()
     user.token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET)
@@ -93,12 +95,31 @@ router.post('/login', async function (req, res, next) {
 // Get current user
 router.get('/me', authenticate, async function (req, res, next) {
   try {
+    console.log(req.user)
     const user = await User.findById(req.user._id)
-    if (!user) return res.status(404).json({ status: false, message: 'User not found' })
+    if (!user)
+      return res.status(404).json({ status: false, message: 'User not found' })
 
     res.json({
       status: true,
       message: 'Successfully fetched current user',
+      user
+    })
+  } catch (error) {
+    res.status(400).json({ status: false, message: error.message })
+  }
+})
+
+// Update current user
+router.put('/me', authenticate, async function (req, res, next) {
+  try {
+    const user = await User.findByIdAndUpdate(req.user._id, req.body).select(
+      '-hashPassword -pin'
+    )
+
+    res.json({
+      status: true,
+      message: 'Successfully updated current user',
       user
     })
   } catch (error) {

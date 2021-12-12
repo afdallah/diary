@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    if (!decoded) return error(400, 'Token is invalid!')
+    if (!decoded) return error(401, 'Token is invalid!')
 
     req.user = decoded
     return next()

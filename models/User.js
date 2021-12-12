@@ -7,6 +7,7 @@ const userSchema = new Schema({
 	email: { type: String, trim: true, required: true, unique: true, lowercase: true },
 	pin: { type: Number, required: true },
 	hashPassword: { type: String },
+	phoneNumber: { type: String, trim: true, required: true, unique: true },
 	birthday: { type: Date },
 	role: { type: String, enum: ['consultant', 'user'], default: 'user'},
 	gender: {
